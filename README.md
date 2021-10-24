@@ -1,1 +1,5 @@
-https://fastcampus.co.kr/UIC_online_secretcode
+### 1.context-menu 정리
+
+- html / css로 처리할 방법이 있다면 최대한 활용하는 것이 좋다.
+
+그 이유는 개발자가 온갖 상황을 테스트하며 대응하여 작성한 코드보다 이미 브라우저에서 검증이 완료된 html / css의 기본 동작의 신뢰도가 높을 수 밖에 없다.
