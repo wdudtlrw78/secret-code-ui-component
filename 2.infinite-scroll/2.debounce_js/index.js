@@ -1,6 +1,7 @@
 'use strict';
 import './style.css';
 import renderList from './listRenderer';
+import { debounce } from './debounce';
 
 const app = document.querySelector('#app');
 const fetchMoreTrigger = document.querySelector('#fetchMore');
@@ -16,12 +17,13 @@ const loadMore = async () => {
 
 const onScroll = (e) => {
   const { clientHeight, scrollTop, scrollHeight } = e.target.scrollingElement;
+  console.log(scrollTop);
   if (scrollTop + clientHeight === scrollHeight) {
     loadMore();
   }
 };
 
-document.addEventListener('scroll', onScroll);
+document.addEventListener('scroll', debounce(onScroll, 300));
 loadMore();
 
 // 연속으로 발생하는 이벤트에 대해서
