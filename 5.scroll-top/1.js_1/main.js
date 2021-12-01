@@ -8,6 +8,21 @@ const nav = document.querySelector('nav');
 // 스크롤 위치를 바탕으로 active 클래스를 추가하거나 제거한다.
 
 // Write JS Code Here!
+
+function throttle(func, delay) {
+  let throttled = false;
+
+  return (...args) => {
+    if (!throttled) {
+      throttled = true;
+      setTimeout(() => {
+        func(...args);
+        throttled = false;
+      }, 300);
+    }
+  };
+}
+
 function handleScroll(e) {
   const { scrollTop } = e.target.scrollingElement;
 
@@ -16,6 +31,7 @@ function handleScroll(e) {
   } else {
     nav.classList.add('active');
   }
+  console.log(e);
 }
 
-window.addEventListener('scroll', handleScroll);
+window.addEventListener('scroll', throttle(handleScroll, 300));
