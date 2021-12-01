@@ -1,37 +1,66 @@
 const nav = document.querySelector('nav');
 
-// 첫 번째 방법
-// 스크롤 이벤트가 발생했을 때
+// - 만약 특정 영역 안에서 스크롤 이벤트를 적용하고 싶다면 아래와 같이 변경합니다.
 
-// 현재 스크롤 위치를 가져온다.
+// ```js
+// // 선택자로 특정 영역을 가리킨 후 스크롤 이벤트 추가
+// const section1 = document.querySelector('#section-1');
 
-// 스크롤 위치를 바탕으로 active 클래스를 추가하거나 제거한다.
+// section1.addEventListener('scroll', function() {……})
+// ```
 
-// Write JS Code Here!
+// 첫번째 방법
 
-function throttle(func, delay) {
-  let throttled = false;
+// function throttle(func, delay) {
+//   let throttled = false;
 
-  return (...args) => {
-    if (!throttled) {
-      throttled = true;
-      setTimeout(() => {
-        func(...args);
-        throttled = false;
-      }, 300);
-    }
-  };
-}
+//   return (...args) => {
+//     if (!throttled) {
+//       throttled = true;
+//       setTimeout(() => {
+//         func(...args);
+//         throttled = false;
+//       }, delay);
+//     }
+//   };
+// }
 
-function handleScroll(e) {
-  const { scrollTop } = e.target.scrollingElement;
+// function handleScroll(e) {
+//   // const { scrollTop } = e.target.scrollingElement;
+//   // 크로스브라우징 고려
+//   const top =
+//     window.scrollY ||
+//     window.pageYOffset ||
+//     document.documentElement.scrollTop ||
+//     document.body.scrollTop;
 
-  if (scrollTop === 0) {
-    nav.classList.remove('active');
-  } else {
+//   top >= 50 ? nav.classList.add('active') : nav.classList.remove('active');
+//   console.log(e);
+// }
+
+// window.addEventListener('scroll', throttle(handleScroll, 150));
+
+// 두 번째 방법
+
+let oldValue = 0;
+window.addEventListener('scroll', function () {
+  const newValue =
+    window.scrollY ||
+    window.pageYOffset ||
+    document.documentElement.scrollTop ||
+    document.body.scrollTop;
+
+  // 음수 : 스크롤 다운
+  if (oldValue - newValue < 0) {
     nav.classList.add('active');
   }
-  console.log(e);
-}
 
-window.addEventListener('scroll', throttle(handleScroll, 300));
+  // 양수 : 스크롤 업
+  if (oldValue - newValue > 0) {
+    nav.classList.remove('active');
+  }
+
+  oldValue = newValue;
+
+  console.log(oldValue, newValue);
+});
